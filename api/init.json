@@ -1,0 +1,83 @@
+{
+  "clearInfo": {
+    "clearUrl": "api/clear.json"
+  },
+  "homeInfo": {
+    "title": "首页",
+    "icon": "fa fa-home",
+    "href": "page/welcome-1.html?mpi=m-p-i-0"
+  },
+  "logoInfo": {
+    "title": "TieBaManage",
+    "image": "images/dog.jpg",
+    "href": ""
+  },
+  "menuInfo": {
+    "currency": {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "child": [
+        {
+          "title": "主页模板",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "主页一",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },        
+        {
+          "title": "异常页面",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "404页面",
+              "href": "page/404.html",
+              "icon": "fa fa-hourglass-end",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "other": {
+      "title": "其它管理",
+      "icon": "fa fa-slideshare",
+      "child": [
+		 {
+          "title": "百度",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "绑定账号",
+              "href": "page/table.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "签到",
+              "href": "page/AllBa.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+		{
+          "title": "网易云",
+          "href": "page/404.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        }
+      ]
+    }
+  }
+}

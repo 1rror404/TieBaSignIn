@@ -1,0 +1,7 @@
+C:\Users\3024\Desktop\TieBaManage\TieBaManage\bin\TieBaManage.dll
+C:\Users\3024\Desktop\TieBaManage\TieBaManage\bin\TieBaManage.pdb
+C:\Users\3024\Desktop\TieBaManage\TieBaManage\bin\HtmlAgilityPack.dll
+C:\Users\3024\Desktop\TieBaManage\TieBaManage\bin\Newtonsoft.Json.dll
+C:\Users\3024\Desktop\TieBaManage\TieBaManage\obj\Debug\TieBaManage.dll
+C:\Users\3024\Desktop\TieBaManage\TieBaManage\obj\Debug\TieBaManage.pdb
+C:\Users\3024\Desktop\TieBaManage\TieBaManage\obj\Debug\TieBaManage.csprojResolveAssemblyReference.cache

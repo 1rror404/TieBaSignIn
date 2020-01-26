@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.4/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <div class="layui-btn-group">
+               
+                <button class="layui-btn layui-btn-normal" id="signin">刷新</button>
+            </div>
+            <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+            <script type="text/html" id="currentTableBar">
+                <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+            </script>
+        </div>
+    </div>
+
+    <form class="layui-form" id="test" style="display: none">
+        <div style="margin-top: 20px; margin-left: 45px">
+            <div class="layui-form-item">
+                <label class="layui-form-label">BDUSS：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入BDUSS" autocomplete="on" class="layui-input" id="bduss" style="width: 280px">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="../lib/layui-v2.5.4/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'table'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                table = layui.table;
+
+            table.render({
+                elem: '#currentTableId',
+                url: '/data/UserTieba.ashx',
+                cols: [[
+                    { type: "checkbox", width: 50, fixed: "left" },
+                 //   { field: 'ID', width: 80, title: 'ID', sort: true },
+                    { field: 'Account', width: 200, title: '账号',sort:true },
+                    { field: 'TieBaName', width: 300, title: '贴吧名称', sort: true },
+                    { field: 'TieBaLV', width: 200, title: '贴吧等级', sort: true },
+                    { field: 'TieBaEXP', width: 200, title: '贴吧经验', sort: true },
+                    { field: 'IsSignIn', width: 200, title: '是否签到', sort: true }
+                ]],
+                limits: [10, 15, 20, 25, 50, 100],
+                limit: 10,
+                page: true,
+                parseData: function (res) {
+                    console.log(res);
+                    return {
+                        "code": 0
+                        , "msg": "成功"
+                        , "count": 200
+                        , "data": res
+                    }
+                }
+            });
+
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (data) {
+                var result = JSON.stringify(data.field);
+                layer.alert(result, {
+                    title: '最终的搜索信息'
+                });
+
+                //执行搜索重载
+                table.reload('currentTableId', {
+                    page: {
+                        curr: 1
+                    }
+                    , where: {
+                        searchParams: result
+                    }
+                }, 'data');
+
+                return false;
+            });
+
+            // 监听添加操作
+            $(".data-add-btn").on("click", function () {
+                // layer.msg('添加数据');
+                layer.open({
+                    type: 1,
+                    area: ['520px', '380px'],
+                    title: '添加账号'
+                     , content: $("#test"),
+                    shade: 0,
+                    btn: ['确认', '取消']
+                   , btn1: function (index, layero) {
+                       var bduss = $("#bduss").val();
+                       $.ajax({
+                           url: '../data/AddAccount.ashx',
+                           data: { 'bduss':  bduss },
+                           type: 'Post',
+                           dataType: "json",
+                           success: function (data)
+                           {
+                               console.log(data);
+                               layer.msg("添加成功！");
+                               layer.closeAll();
+                           },
+                           error: function (data) {
+                               console.log("错误");
+                           }
+                       })
+                   },
+                    btn2: function (index, layero) {
+                        layer.closeAll();
+                        return false;
+                    },
+                    cancel: function (layero, index) {
+                        layer.closeAll();
+                    }
+                });
+            });
+            //签到
+            $("#signin").on("click", function () {
+              //  layer.msg('签到');
+                $.ajax({
+                    url: '../data/SignIn.ashx',
+                    data: {
+                       // 'bduss': 'BDUSS=NLfkhpcFJ1QkFvRjI3ODdDaGpGTWZwMEY0WUZqcmdZMG45LWhTcVJQdE5veWRlSVFBQUFBJCQAAAAAAAAAAAEAAAD-AFUAzvTI1bO~ueIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE0WAF5NFgBeNX'
+                       //'bduss': 'BDUSS=UhHSFk5UDdUYXRreXFwS0NPUHZDejVmdHNqYlJjUn4yRmJRSGsxOEhVNWFyaUplSVFBQUFBJCQAAAAAAAAAAAEAAAD-AFUAzvTI1bO~ueIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFoh-11aIftdQ'
+                        'bduss': 'BAIDUID=C342F92D18CC106E7F4879DF44B6148C:FG=1; BIDUPSID=2F7C99E85B97425CA2682FEEC5C94FBC; PSTM=1567087276; TIEBAUID=d2f4fc2ae93e6cf39121eaf7; TIEBA_USERTYPE=c061bb2c8145d49e75c43d3e; Hm_lvt_98b9d8c2fd6608d564bf2ac2ae642948=1576739126; bdshare_firstime=1568956436167; BDUSS=UhHSFk5UDdUYXRreXFwS0NPUHZDejVmdHNqYlJjUn4yRmJRSGsxOEhVNWFyaUplSVFBQUFBJCQAAAAAAAAAAAEAAAD-AFUAzvTI1bO~ueIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFoh-11aIftdQ; STOKEN=2b2b6d1fc14aa7f05b3439da458937d1960b65e5a95b028a0bc21c7cb51a11c5'
+                    },
+                    type: 'Post',
+                    dataType: "Json",
+                    success: function (data)
+                    {
+                        console.log("签到成功");
+                    },
+                    error: function () {
+                        console.log("签到失败");
+                    }
+                })
+            });
+            // 监听删除操作
+            $(".data-delete-btn").on("click", function () {
+                var checkStatus = table.checkStatus('currentTableId')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            });
+
+            //监听表格复选框选择
+            table.on('checkbox(currentTableFilter)', function (obj) {
+                console.log(obj)
+            });
+
+
+            table.on('tool(currentTableFilter)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    layer.alert('编辑行：<br>' + JSON.stringify(data))
+                } else if (obj.event === 'delete') {
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del();
+                        layer.close(index);
+                    });
+                }
+            });
+
+        });
+</script>
+</body>
+</html>
